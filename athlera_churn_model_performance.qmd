@@ -1,5 +1,5 @@
 ---
-title: "Customer Churn Analysis Demo"
+title: "Churn Model Comparison Demo"
 author: "Bryan Keating"
 date: today
 format:
@@ -109,3 +109,5 @@ Two models will be created for this report:
   - `paperless_billing` - method of payment
 
   - `monthly_charges` - monthly payment for services
+
+The
