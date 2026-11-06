@@ -1,0 +1,22 @@
+# History and session data
+.Rhistory
+.Rdata
+.RData
+.Ruserdata
+
+# RStudio project configuration and session state
+.Rproj.user/
+
+# Quarto rendering artifacts and caches
+/.quarto/
+*_cache/
+*_files/
+
+# macOS / Windows system files
+.DS_Store
+Thumbs.db
+
+# Optional: Rendered intermediate outputs
+# Note: Keep *.html or *.pdf if you want rendered reports directly viewable on GitHub.
+# Uncomment below only if you want git to ignore all rendered PDFs:
+# *.pdf
