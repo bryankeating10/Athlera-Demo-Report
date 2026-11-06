@@ -87,3 +87,25 @@ unique_cols <- c('multiple_lines', 'internet_service', 'online_security',
 unique_list <- as.data.frame(lapply(wa_churn[unique_cols], unique))
 unique_list
 ```
+
+## Model Creation
+
+Two models will be created for this report:
+
+- The `claude_model` will represent the prediction capabilities of a general LLM. It will be trained on two major predictor variables: `tenure` and `paperless_billing`
+
+- The `athlera_model` will represent the prediction capabilities of Athlera's proprietary deterministic, guard-railed LLM. It will be trained on the following predictor variables:
+
+  - `female` - gender of customer
+
+  - `senior_citizen` - age bracket
+
+  - `tenure` - length of subscription
+
+  - `phone_service` - whether they are subscribed to a phone service
+
+  - `contract` - billing frequency
+
+  - `paperless_billing` - method of payment
+
+  - `monthly_charges` - monthly payment for services
