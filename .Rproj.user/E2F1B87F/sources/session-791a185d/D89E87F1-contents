@@ -1,26 +1,43 @@
 ---
-title: "athlera_model_performance"
-format: html
-editor: visual
+title: "Customer Churn Analysis Demo"
+author: "Bryan Keating"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    theme: cosmo
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
 
-## Quarto
+## IBM Watson Customer Churn Data Set
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+The `wu_churn` data set is a collection of IBM Watson customer data collected in September 2018. The data contains a factor variable of whether or not the customer has churned, and other related information about the customer.
 
 ```{r}
-1 + 1
+# Install and load the dataset
+# install.packages("modeldata")
+# library(modeldata)
+data(wa_churn)
+head(wa_churn, 10)
+?wa_churn
 ```
 
-You can add options to executable code like this
+## Report Outcome
+
+The goal of this report is to use the `wu_churn` data set to compare the performance between two models trained to predict whether a customer will churn based on their observed characteristics. Ultimately, this will show quantitative methods of scoring model performance and derive metrics for proving the strongest predictor choice.
 
 ```{r}
-#| echo: false
-2 * 2
-```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```

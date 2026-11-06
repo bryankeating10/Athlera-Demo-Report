@@ -1,0 +1,43 @@
+---
+title: "Customer Churn Analysis Demo"
+author: "Bryan Keating"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    theme: cosmo
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## IBM Watson Customer Churn Data Set
+
+The `wu_churn` data set is a collection of IBM Watson customer data collected in September 2018. The data contains a factor variable of whether or not the customer has churned, and other related information about the customer.
+
+```{r}
+# Install and load the dataset
+# install.packages("modeldata")
+# library(modeldata)
+data(wa_churn)
+head(wa_churn, 10)
+?wa_churn
+```
+
+## Report Outcome
+
+The goal of this report is to use the `wu_churn` data set to compare the performance between two models trained to predict whether a customer will churn based on their observed characteristics. Ultimately, this will show quantitative methods of scoring model performance and derive metrics for proving the strongest predictor choice.
+
+```{r}
+
+```
