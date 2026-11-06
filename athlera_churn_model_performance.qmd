@@ -28,7 +28,9 @@ The `wu_churn` data set is a collection of IBM Watson customer data collected in
 ```{r}
 # Install and load the dataset
 # install.packages("modeldata")
+remove(list = ls())
 library(modeldata)
+library(tidyverse)
 data(wa_churn)
 str(wa_churn)
 ```
@@ -37,6 +39,51 @@ str(wa_churn)
 
 The goal of this report is to use the `wu_churn` data set to compare the performance between two models trained to predict whether a customer will churn based on their observed characteristics. Ultimately, this will show quantitative methods of scoring model performance and derive metrics for proving the strongest predictor choice.
 
-```{r}
+## Data Cleaning
 
+Convert numeric categorical columns to factor
+
+```{r}
+# Backup dataset
+backup_wa_churn <- wa_churn
+factor_cols <- c('female','senior_citizen','partner',
+                 'dependents','phone_service','paperless_billing')
+
+# Factoring
+wa_churn[factor_cols] <- lapply(
+  wa_churn[factor_cols],
+  function(x) {factor(x, levels = c(0,1), labels = c('No','Yes'))})
+
+# Comparison check
+head(wa_churn,3)
+head(backup_wa_churn,3)
+```
+
+Inspect multicollinearity in the continuous subset. As expected, total charges is highly correlated with monthly charges and tenure and can be dropped to avoid model redundancy.
+
+```{r}
+# Continous subset
+continuous_cols <- c('tenure','monthly_charges','total_charges')
+
+# Pearson correlation matrix
+cor(na.omit(wa_churn[continuous_cols]))
+
+# Drop redundant total_charges
+wa_churn <- wa_churn |> 
+  select(-total_charges)
+```
+
+## Data Inspection
+
+Understanding the value possibilities for each variable and finding relationships between them will be helpful in determining which should be included in the model. Internet amenities are influenced by the existence of internet service. This will have to be considered when designing the model.
+
+```{r}
+# Columns
+unique_cols <- c('multiple_lines', 'internet_service', 'online_security',
+                 'online_backup', 'device_protection', 'tech_support',
+                 'streaming_tv', 'streaming_movies', 'contract')
+
+# Unique value analysis
+unique_list <- as.data.frame(lapply(wa_churn[unique_cols], unique))
+unique_list
 ```
