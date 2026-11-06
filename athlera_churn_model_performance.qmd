@@ -28,10 +28,9 @@ The `wu_churn` data set is a collection of IBM Watson customer data collected in
 ```{r}
 # Install and load the dataset
 # install.packages("modeldata")
-# library(modeldata)
+library(modeldata)
 data(wa_churn)
-head(wa_churn, 10)
-?wa_churn
+str(wa_churn)
 ```
 
 ## Report Outcome
