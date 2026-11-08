@@ -209,6 +209,14 @@ round(claude_false_neg, 4)
 # True positives
 claude_true_pos <- claude_cm["Yes", "Yes"] / sum(claude_cm["Yes", ])
 round(claude_true_pos, 4)
+
+# False positives
+claude_false_pos <- claude_cm["No","Yes"] / sum(claude_cm["No", ])
+round(claude_false_pos, 4)
+
+# True negatives
+claude_true_neg <- claude_cm["No","No"] / sum(claude_cm["No", ])
+round(claude_true_neg, 4)
 ```
 
 ### Athlera
@@ -221,4 +229,67 @@ round(athlera_false_neg, 4)
 # True positives
 athlera_true_pos <- athlera_cm["Yes", "Yes"] / sum(athlera_cm["Yes", ])
 round(athlera_true_pos, 4)
+
+# False positives
+athlera_false_pos <- athlera_cm["No","Yes"] / sum(athlera_cm["No", ])
+round(athlera_false_pos, 4)
+
+# True negatives
+athlera_true_neg <- athlera_cm["No","No"] / sum(athlera_cm["No", ])
+round(athlera_true_neg, 4)
+```
+
+## Performance Comparison Metrics
+
+Compiling the data
+
+```{r}
+library(scales)
+library(ggplot2)
+
+# Build the comparison dataframe
+performance_data <- data.frame(
+  Metric = rep(c("True Positives", "True Negatives", "False Positives",
+                 "False Negatives"), 2),
+  Model = rep(c("Claude", "Athlera"), each = 4),
+  Accuracy = c(
+    claude_true_pos, claude_true_neg, claude_false_pos, claude_false_neg,
+    athlera_true_pos, athlera_true_neg, athlera_false_pos, athlera_false_neg))
+performance_data$Metric <- factor(
+  performance_data$Metric, levels = c("True Positives", "True Negatives",
+                                      "False Positives", "False Negatives"))
+
+ggplot(performance_data, aes(x = Metric, y = Accuracy, fill = Model)) +
+  geom_col(position = "dodge")
+
+```
+
+Styled plot
+
+```{r}
+# 2. Build the grouped bar chart
+ggplot(performance_data, aes(x = Metric, y = Accuracy, fill = Model)) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.7) +
+  geom_text(
+    aes(label = percent(Accuracy, accuracy = 0.1)),
+    position = position_dodge(width = 0.8),
+    vjust = -0.5,
+    size = 3.5
+  ) +
+  scale_y_continuous(
+    labels = percent_format(),
+    limits = c(0, 1.05),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  scale_fill_manual(values = c("Athlera" = "#2b5c8f", "Claude" = "#d97736")) +
+  labs(
+    title = "Model Performance Comparison",
+    x = "Confusion Metric",
+    y = "Rate (Proportion)") +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold", hjust = 0.5)
+  )
 ```
