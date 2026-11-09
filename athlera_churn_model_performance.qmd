@@ -290,6 +290,56 @@ ggplot(performance_data, aes(x = Metric, y = Accuracy, fill = Model)) +
   theme(
     legend.position = "top",
     panel.grid.major.x = element_blank(),
-    plot.title = element_text(face = "bold", hjust = 0.5)
+    plot.title = element_text(face = "bold", hjust = 0.5))
+```
+
+ROC and AUC comparison
+
+```{r}
+# install.packages("pROC")
+library(pROC)
+library(ggplot2)
+
+roc_claude  <- roc(test_data$churn, claude_probs)
+roc_athlera <- roc(test_data$churn, athlera_probs)
+
+# Plot both curves
+ggroc(list("Claude Model (Baseline)" = roc_claude, 
+           "Athlera Model (Full)"     = roc_athlera), 
+      legacy.axes = TRUE, linewidth = 1) +
+  geom_abline(linetype = "dashed", color = "gray50") +
+  scale_color_manual(values = c("blue", "darkgreen")) +
+  theme_minimal() +
+  labs(
+    title = "ROC Curve Comparison",
+    subtitle = paste0("Claude AUC: ", round(auc(roc_claude), 3), 
+                      " | Athlera AUC: ", round(auc(roc_athlera), 3)),
+    x = "False Positive Rate (1 - Specificity)",
+    y = "True Positive Rate (Sensitivity)",
+    color = "Model"
+  )
+```
+
+Gemini copy paste
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+eval_df <- bind_rows(
+  data.frame(truth = test_data$churn, prob = claude_probs,  model = "Claude Model"),
+  data.frame(truth = test_data$churn, prob = athlera_probs, model = "Athlera Model")
+)
+
+ggplot(eval_df, aes(x = prob, fill = truth)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~ model, ncol = 1) +
+  scale_fill_manual(values = c("skyblue3", "coral2")) +
+  theme_minimal() +
+  labs(
+    title = "Predicted Probability Distributions by Actual Churn",
+    x = "Predicted Churn Probability",
+    y = "Density",
+    fill = "Actual Churn"
   )
 ```
