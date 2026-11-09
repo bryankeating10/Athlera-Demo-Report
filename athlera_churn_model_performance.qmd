@@ -187,7 +187,7 @@ claude_cm
 # Testing 
 athlera_probs <- predict(athlera_model, newdata = test_data, type = "response")
 athlera_preds <- factor(
-  ifelse(athlera_probs > 0.5, "Yes", "No"),
+  ifelse(athlera_probs > 0.2, "Yes", "No"),
   levels = c("No","Yes"))
 
 # Athlera confusion matrix
